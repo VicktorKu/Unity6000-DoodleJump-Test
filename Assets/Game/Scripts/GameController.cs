@@ -12,6 +12,7 @@ public sealed class GameController : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private ScoreUI scoreUI;
+    [SerializeField] private GameOverUI gameOverUI;
 
     [SerializeField] private ScreenManager screens;
     [SerializeField] private float scoreScale = 1f;
@@ -126,5 +127,8 @@ public sealed class GameController : MonoBehaviour
 
         if (screens != null)
             screens.OpenOverlay(ScreenId.GameOver);
+
+        if (gameOverUI != null)
+            gameOverUI.SetScore(_score);
     }
 }

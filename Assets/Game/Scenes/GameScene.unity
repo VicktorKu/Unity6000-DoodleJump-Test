@@ -1921,6 +1921,7 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   cameraFollow: {fileID: 519420033}
   scoreUI: {fileID: 1095864856}
+  gameOverUI: {fileID: 1092157047}
   screens: {fileID: 801223695}
   scoreScale: 1
   pointsPerUnit: 10
@@ -2870,6 +2871,51 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1092157045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1092157046}
+  - component: {fileID: 1092157047}
+  m_Layer: 0
+  m_Name: GameOverUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1092157046
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092157045}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1114347443}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1092157047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092157045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8589ead4af2b770438c5c556f09cbdc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 1871703265}
 --- !u!1 &1095864854
 GameObject:
   m_ObjectHideFlags: 0
@@ -2946,6 +2992,7 @@ Transform:
   m_Children:
   - {fileID: 229535731}
   - {fileID: 1095864855}
+  - {fileID: 1092157046}
   m_Father: {fileID: 599878539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1116134222
@@ -4723,7 +4770,7 @@ MonoBehaviour:
   minStepY: 1.6
   maxStepY: 2.2
   aheadDistance: 24
-  destroyBelowDistance: 8
+  destroyBelowDistance: 6
   shortPlatformChance: 0.35
 --- !u!4 &1689446780
 Transform:
