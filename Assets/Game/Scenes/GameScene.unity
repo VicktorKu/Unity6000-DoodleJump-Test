@@ -1919,6 +1919,7 @@ MonoBehaviour:
   spawner: {fileID: 1689446779}
   rabbit: {fileID: 2106926151}
   mainCamera: {fileID: 519420031}
+  cameraFollow: {fileID: 519420033}
   scoreUI: {fileID: 1095864856}
   screens: {fileID: 801223695}
   scoreScale: 1

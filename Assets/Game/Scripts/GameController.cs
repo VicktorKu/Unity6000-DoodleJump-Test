@@ -8,6 +8,7 @@ public sealed class GameController : MonoBehaviour
     [SerializeField] private PlatformSpawner spawner;
     [SerializeField] private RabbitController rabbit;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private CameraFollow cameraFollow;
 
     [Header("UI")]
     [SerializeField] private ScoreUI scoreUI;
@@ -43,7 +44,7 @@ public sealed class GameController : MonoBehaviour
         var p = rabbit.transform.position;
         rabbit.transform.position = new Vector3(startX, startY + 0.8f, p.z);
 
-        ResetCameraTo(rabbit.transform.position.y);
+        cameraFollow.ResetFollowToTargetY(rabbit.transform.position.y);
 
         _startY = rabbit.transform.position.y;
         _maxY = _startY;

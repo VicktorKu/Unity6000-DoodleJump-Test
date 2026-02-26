@@ -21,11 +21,11 @@ public sealed class CameraFollow : MonoBehaviour
         }
     }
 
-    public void ResetFollow(float startY)
+    public void ResetFollowToTargetY(float targetY)
     {
-        _maxY = startY;
+        _maxY = targetY + offsetY;
         var p = transform.position;
-        p.y = startY;
+        p.y = _maxY;
         transform.position = p;
     }
 }
