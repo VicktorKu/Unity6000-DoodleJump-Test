@@ -78,14 +78,14 @@ public sealed class GameController : MonoBehaviour
         spawner.Tick(mainCamera.transform.position.y);
 
         float y = rabbit.transform.position.y;
-        Debug.Log(y);
+
         if (y > _maxY)
         {
             _maxY = y;
 
             float height = _maxY - _startY;
             int newScore = Mathf.Max(0, Mathf.FloorToInt(height * pointsPerUnit));
-            Debug.Log(newScore);
+
             if (newScore != _score)
             {
                 _score = newScore;
