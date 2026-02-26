@@ -2022,9 +2022,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 50
+    m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 50
     m_Bottom: 50
   m_ChildAlignment: 1
   m_Spacing: 10
@@ -5415,7 +5415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listRoot: {fileID: 781039096}
   rowPrefab: {fileID: 2980828540828140171, guid: 98c1eac8aa057d6408ac005ce2b1992a, type: 3}
-  showTop: 6
+  showTop: 8
 --- !u!1 &2106926146
 GameObject:
   m_ObjectHideFlags: 0
