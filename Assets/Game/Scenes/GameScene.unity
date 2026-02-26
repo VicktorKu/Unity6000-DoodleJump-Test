@@ -5585,6 +5585,7 @@ MonoBehaviour:
   jumpVelocity: 14
   moveSpeed: 6
   deathBelowY: -10
+  activeScreenBottom01: 0.6
 --- !u!1 &2131864332
 GameObject:
   m_ObjectHideFlags: 0
