@@ -12,10 +12,18 @@ public sealed class GameController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private ScoreUI scoreUI;
 
+    [SerializeField] private ScreenManager screens;
+    [SerializeField] private float scoreScale = 1f;
+
+    
+    private readonly RecordsService _records = new();
+    private float _startY;
+    private float _maxY;
+    private int _score;
+    [SerializeField] private float pointsPerUnit = 10f;
+
     private bool _running;
     private bool _paused;
-
-    private float _startY;
 
     private void Start()
     {
@@ -38,7 +46,10 @@ public sealed class GameController : MonoBehaviour
         ResetCameraTo(rabbit.transform.position.y);
 
         _startY = rabbit.transform.position.y;
-        scoreUI.SetScore(0);
+        _maxY = _startY;
+
+        _score = 0;
+        scoreUI.SetScore(_score);
 
         _running = true;
         _paused = false;
@@ -66,6 +77,21 @@ public sealed class GameController : MonoBehaviour
 
         spawner.Tick(mainCamera.transform.position.y);
 
+        float y = rabbit.transform.position.y;
+        Debug.Log(y);
+        if (y > _maxY)
+        {
+            _maxY = y;
+
+            float height = _maxY - _startY;
+            int newScore = Mathf.Max(0, Mathf.FloorToInt(height * pointsPerUnit));
+            Debug.Log(newScore);
+            if (newScore != _score)
+            {
+                _score = newScore;
+                scoreUI.SetScore(_score);
+            }
+        }
     }
 
     private void SetGameplayActive(bool active)
@@ -81,5 +107,23 @@ public sealed class GameController : MonoBehaviour
         if (mainCamera == null) return;
         var camT = mainCamera.transform;
         camT.position = new Vector3(camT.position.x, targetY + 2.5f, camT.position.z);
+    }
+
+    public void TriggerGameOver()
+    {
+        if (!_running) return;
+        OnGameOver();
+    }
+
+    private void OnGameOver()
+    {
+        _running = false;
+        _paused = false;
+        Time.timeScale = 1f;
+
+        _records.AddIfValid(_score);
+
+        if (screens != null)
+            screens.OpenOverlay(ScreenId.GameOver);
     }
 }

@@ -24,7 +24,6 @@ public sealed class RabbitController : MonoBehaviour
     {
         IsDead = false;
         RB.linearVelocity = Vector2.zero;
-        transform.position = new Vector3(0f, 0f, transform.position.z);
     }
 
     private void Update()
