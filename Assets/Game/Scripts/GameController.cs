@@ -15,9 +15,7 @@ public sealed class GameController : MonoBehaviour
     [SerializeField] private GameOverUI gameOverUI;
 
     [SerializeField] private ScreenManager screens;
-    [SerializeField] private float scoreScale = 1f;
-
-    
+  
     private readonly RecordsService _records = new();
     private float _startY;
     private float _maxY;

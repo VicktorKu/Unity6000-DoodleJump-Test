@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public sealed class RabbitController : MonoBehaviour
@@ -14,15 +15,7 @@ public sealed class RabbitController : MonoBehaviour
     private Rigidbody2D _rb;
     public bool IsDead { get; private set; }
 
-    private Rigidbody2D RB
-    {
-        get
-        {
-            if (_rb == null)
-                _rb = GetComponent<Rigidbody2D>();
-            return _rb;
-        }
-    }
+    private Rigidbody2D RB => _rb != null ? _rb : (_rb = GetComponent<Rigidbody2D>());
 
     public void ResetPlayer()
     {
@@ -34,7 +27,7 @@ public sealed class RabbitController : MonoBehaviour
     {
         if (IsDead) return;
 
-        float x = ReadMoveX();
+        float x = ReadMoveX_New();
 
         var v = RB.linearVelocity;
         v.x = x * moveSpeed;
@@ -44,54 +37,51 @@ public sealed class RabbitController : MonoBehaviour
             IsDead = true;
     }
 
-    private float ReadMoveX()
+    private float ReadMoveX_New()
     {
-        float touch = ReadTouchMoveX_Multi();
+        float touch = ReadTouchMoveX_New();
         if (touch != 0f) return touch;
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-        float mouse = ReadMouseMoveX();
+        float mouse = ReadMouseMoveX_New();
         if (mouse != 0f) return mouse;
-#endif
-        return Input.GetAxisRaw("Horizontal");
-    }
 
-    private float ReadTouchMoveX_Multi()
-    {
-        if (Input.touchCount <= 0) return 0f;
-
-        for (int i = 0; i < Input.touchCount; i++)
+        if (Keyboard.current != null)
         {
-            var t = Input.GetTouch(i);
-
-            if (t.phase != TouchPhase.Began &&
-                t.phase != TouchPhase.Moved &&
-                t.phase != TouchPhase.Stationary)
-                continue;
-
-            float y01 = t.position.y / Screen.height;
-            if (y01 > activeScreenBottom01)
-                continue;
-
-            float x01 = t.position.x / Screen.width;
-            return (x01 < 0.5f) ? -1f : 1f;
+            if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) return -1f;
+            if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) return 1f;
         }
 
         return 0f;
     }
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-    private float ReadMouseMoveX()
+    private float ReadTouchMoveX_New()
     {
-        if (!Input.GetMouseButton(0)) return 0f;
+        if (Touchscreen.current == null) return 0f;
 
-        float y01 = Input.mousePosition.y / Screen.height;
+        var touch = Touchscreen.current.primaryTouch;
+        if (!touch.press.isPressed) return 0f;
+
+        Vector2 pos = touch.position.ReadValue();
+        return ScreenSplitMoveX(pos);
+    }
+
+    private float ReadMouseMoveX_New()
+    {
+        if (Mouse.current == null) return 0f;
+        if (!Mouse.current.leftButton.isPressed) return 0f;
+
+        Vector2 pos = Mouse.current.position.ReadValue();
+        return ScreenSplitMoveX(pos);
+    }
+
+    private float ScreenSplitMoveX(Vector2 screenPos)
+    {
+        float y01 = screenPos.y / Screen.height;
         if (y01 > activeScreenBottom01) return 0f;
 
-        float x01 = Input.mousePosition.x / Screen.width;
+        float x01 = screenPos.x / Screen.width;
         return (x01 < 0.5f) ? -1f : 1f;
     }
-#endif
 
     private void OnCollisionEnter2D(Collision2D c)
     {
